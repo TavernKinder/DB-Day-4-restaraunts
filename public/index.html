@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>My Restaurant Manager</title>
+  </head>
+  <body>
+    <main>
+      <h1>Welcome to My Restaurant Manager</h1>
+      <p>List of restaurants will appear here:</p>
+      <div id="restaurant-list"></div>
+    </main>
+    <script>
+      fetch("/api/restaurants")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Fetched restaurants:", data);
+          const restaurantList = document.getElementById("restaurant-list");
+          data.forEach((restaurant) => {
+            const restaurantItem = document.createElement("div");
+            restaurantItem.classList.add("restaurant-item");
+            restaurantItem.innerHTML = `
+              <h2>${restaurant.name}</h2>
+              <p>Borough: ${restaurant.borough}</p>
+              <p>Cuisine: ${restaurant.cuisine}</p>
+            `;
+            restaurantList.appendChild(restaurantItem);
+          });
+        })
+        .catch((error) => console.error("Error fetching restaurants:", error));
+    </script>
+  </body>
+</html>
